@@ -1,0 +1,132 @@
+<div class='grid-container'>
+  <h1 class='mat-h1'>{{nombreMenu}}</h1>
+  <mat-accordion *ngIf="logado">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Parámetros aprobación</mat-panel-title>
+        <mat-panel-description>Despliegue para cambiar</mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-form-field style="display: block">
+        <input matInput placeholder="Ratio aprobación"  ngDefaultControl [(ngModel)]="ratioAprobacion">
+        <mat-hint align="start"><strong> Actualmente es: {{ratioAprobacion}}</strong> </mat-hint>
+      </mat-form-field>
+      <mat-form-field style="display: block" ngDefaultControl [(ngModel)]="votosAprobacion">
+        <mat-hint align="start"><strong> Actualmente es: {{votosAprobacion}}</strong> </mat-hint>
+        <input matInput placeholder="Numero votos favorables">
+      </mat-form-field>
+      <button mat-raised-button color='accent' (click)="actualizarRatio(ratioAprobacion,votosAprobacion)">Actualizar</button>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Filtros
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-form-field style='margin-right: 15px;' color='primary'>
+        <mat-label>Cámara</mat-label>
+        <mat-select (selectionChange)="cambiadoCamara($event)">
+          <mat-option>Cualquiera</mat-option>
+          <mat-option *ngFor='let elemfiltro of camara1' [value]='elemfiltro.value'>
+            {{elemfiltro.valorVista}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style='margin-right: 15px;' color='primary'>
+        <input matInput [matDatepicker]="inicio" placeholder="Fecha de inicio" (dateInput)="cambiarFechaInicio($event.value)" >
+        <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
+        <mat-datepicker #inicio></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style='margin-right: 15px;' color='primary'>
+        <input matInput [matDatepicker]="fin" placeholder="Fecha de fin" (dateInput)="cambiarFechaFin($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="fin"></mat-datepicker-toggle>
+        <mat-datepicker #fin></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style='margin-right: 15px;' color='primary'>
+        <mat-label>Ratio</mat-label>
+        <mat-select (selectionChange)="cambiadoRatio($event)">
+          <mat-option>Cualquiera</mat-option>
+          <mat-option *ngFor='let elemfiltro of ratios' [value]='elemfiltro.value'>
+            {{elemfiltro.valorVista}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style='margin-right: 15px;' color='primary'>
+        <mat-label>Hora inicio</mat-label>
+        <mat-select (selectionChange)="cambiadoHoraIni($event.value)">
+          <mat-option>Cualquiera</mat-option>
+          <mat-option *ngFor='let elemfiltro of horasInicio' [value]='elemfiltro.value'>
+            {{elemfiltro.valorVista}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field style='margin-right: 15px;' color='primary'>
+        <mat-label>Hora fin</mat-label>
+        <mat-select (selectionChange)="cambiadoHoraFin($event)">
+          <mat-option>Cualquiera</mat-option>
+          <mat-option *ngFor='let elemfiltro of horasFin' [value]='elemfiltro.value'>
+            {{elemfiltro.valorVista}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-grid-list cols='{{numeroDeColumnas}}' rowHeight='{{altoFila}}px' *ngIf="length>0 && conectado && !isLoading; else noResultados">
+    <mat-grid-tile #videoCard *ngFor='let card of cards' [colspan]='card.cols' [rowspan]='card.rows' tabindex='0'>
+      <mat-card class='dashboard-card'>
+        <div class='mdc-card__media-content'>
+          <video id=i class='miVideo' src='{{card.ubicacion}}' type='video/mp4' controls *ngIf="logado; else noLogado">
+          </video>
+          <ng-template #noLogado>
+              <video id=i class='miVideo' src='{{card.ubicacion}}' type='video/mp4' controls controlsList="nodownload">
+              </video>
+          </ng-template>
+        </div>
+        <mat-card-header>
+          <mat-card-title>
+            {{card.title}}
+            <button mat-icon-button class='more-button' [matMenuTriggerFor]='menu' aria-label='Toggle menu'>
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu='matMenu' xPosition='before'>
+              <button mat-menu-item (click)='eliminar(card.id)'[disabled]="! logado">Remove</button>
+            </mat-menu>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class='dashboard-card-content'>
+          <!--div>Card Content Here</div-->
+
+          <div style="text-align: left">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip style="background-color: #bd2d20" selected >Votos de rechazo: {{card.contra}}</mat-chip>
+              <mat-chip style="background-color: #188520" selected >Votos de aceptacion: {{card.favor}}</mat-chip>
+              <mat-chip style="background-color: #1948ff" selected >Ratio {{math.round(card.favor*100/(card.favor+card.contra)*100)/100}}%</mat-chip>
+            </mat-chip-list>
+            <span class='miSpan'> Grabado en {{card.camara}} el {{formatterFecha(card.fecha,'yyyy-MM-dd','en-UK')}} a las {{card.hora}}</span>
+          </div>
+
+        </mat-card-content>
+        <mat-card-footer>
+
+        </mat-card-footer>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <ng-template #noResultados>
+    <p>
+      {{mensajeInformacion}}
+    </p>
+  </ng-template>
+  <mat-paginator [length]="length"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 (page)="cambiarPagina(pageEvent = $event)">
+  </mat-paginator>
+</div>

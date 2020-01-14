@@ -1,0 +1,44 @@
+<div class='grid-container' *ngIf="conectado && !isLoading; else falloConexion">
+  <mat-grid-list cols='{{numeroDeColumnas}}' rowHeight='{{altoDeFila}}'>
+    <mat-grid-tile>
+      <div id="divVideo" style="background-color: darkgrey;">
+        <div style="background-color: black; position: relative">
+        <video id="video" style="z-index: -1; position: fixed;top:59px;left: 10px;" id="video" class='miVideo' src='{{video.ubicacion}}' type='video/mp4' onclick='funcionFullScreen(i)'>
+        </video>
+        <img id="botonPlay" style="z-index: 3; height: 150px; width:150px; position: fixed;top:84px;left: 60px; display:none" src="assets/icons/playButton.svg" alt="Italian Trulli" (click)="alerta()">
+          <button id="botonEmpezar" mat-raised-button style="z-index: 3;" color='accent' (click)='alerta()'>¿EMPEZAMOS?</button>
+          <button id="botonVerDeNuevo" style="z-index: 3;display: none" mat-raised-button color='accent' (click)='alerta()'>¿QUIERES VOLVER A VERLO?</button>
+        </div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <div style="width: 100%">
+        <div id="divSpan" style="height: 48px; width: 100%; background-color: #b9b9b9; text-align: center; display:  block">
+          <span id="mySpan"style="display: inline-block; padding-top: 10px">Titulo</span>
+        </div>
+        <div style="width: 100%; display: block">
+          <mat-grid-list cols="2" rowHeight="{{altoDeFila/3}}">
+            <mat-grid-tile>
+              <button mat-raised-button color='accent' (click)='funcionAceptar()'>ES UN BÓLIDO</button>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <button mat-raised-button color='accent' (click)='funcionRechazar()'>NO ES UN BÓLIDO</button>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <button mat-raised-button color='accent' (click)='funcionSaltar()'>NO LO SÉ, DAME OTRO</button>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <button mat-raised-button color='accent' (click)='funcionAyuda()'>MOSTRAR TUTORIAL</button>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </div>
+
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+<ng-template #falloConexion>
+  <p>
+    {{mensajeInformacion}}
+  </p>
+</ng-template>

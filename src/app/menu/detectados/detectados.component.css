@@ -1,0 +1,35 @@
+.grid-container {
+  margin: 5px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 5px;
+  padding: 0px;
+  left: 2px;
+  right: 2px;
+  bottom: 5px;
+}
+
+.more-button {
+  position: absolute;
+  /*bottom: 60px;*/
+  right: 10px;
+}
+
+.dashboard-card-content {
+  text-align: center;
+}
+
+.miVideo {
+  width: 100%;
+  border-style: ridge;
+}
+
+.miSpan {
+  margin: 2px;
+}
+.info-text {
+  text-align: center;
+}
+

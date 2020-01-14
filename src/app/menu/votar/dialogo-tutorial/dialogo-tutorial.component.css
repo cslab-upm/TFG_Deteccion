@@ -1,0 +1,10 @@
+mat-card {
+  width: 100%;
+  text-align: center;
+}
+mat-card-header {
+  text-align: center;
+}
+miVideo {
+  display: none;
+}

@@ -1,0 +1,27 @@
+<div style="width: 100%; align-content: center; display: flex">
+  <mat-card fxLayoutAlign="center center">
+    <mat-card-content>
+      <img mat-card-image id=imagen src={{tutorial[i].imagen}} alt="Photo of a Shiba Inu" style="height: 100px; width: 200px">
+      <video id=Tutorial2 style="display: none; height: 100px; width: 200px" src='{{ubicacion1}}' type='video/mp4' controls onclick='funcionFullScreen(i)'>
+      </video>
+      <video id=Tutorial3 style="display: none; height: 100px; width: 200px" class='miVideo' src='{{ubicacion2}}' type='video/mp4' controls onclick='funcionFullScreen(i)'>
+      </video>
+      <video id=Tutorial4 style="display: none; height: 100px; width: 200px" class='miVideo' src='{{ubiaccion3}}' type='video/mp4' controls onclick='funcionFullScreen(i)'>
+      </video>
+      <p>
+        {{tutorial[i].texto}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <div style="position: relative;display: flex;">
+        <button type="button" id="atras" aria-label="Previous step" title="Previous" [disabled]="atrasDisabled" (click)="anterior()">◀</button>
+        <mat-progress-bar
+          [color]="color"
+          [mode]="mode"
+          [value]="value">
+        </mat-progress-bar>
+        <button type="button" aria-label="Next step" title="Next" (click)="siguiente()">▶</button></div>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
