@@ -56,7 +56,7 @@ Bolido.getBolidos = function(lastId, numElems, camara, fechaIni, fechaFin, ratio
           throw err;reject();
         }
         //console.log(result);
-        con.close();
+        con.end();
         resolve(result);
       });
     });
@@ -107,7 +107,7 @@ Bolido.getTotal = function(camara, fechaIni, fechaFin, ratio, horaIni, horaFin) 
         }
         console.log('result.numero');
         console.log(result[0].numero);
-        con.close();
+        con.end();
         resolve(result[0].numero);
       });
     });
@@ -132,7 +132,7 @@ Bolido.deleteBolido = function(id) {
         if (err){
           throw err;reject();
         }
-        con.close();
+        con.end();
         resolve(result);
       });
     });

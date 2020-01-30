@@ -1,7 +1,7 @@
 let fs      = require('fs')
 let path    = require('path');
 let express = require('express');
-
+const archivoRutas = require('./rutasImagenesYVideos.js');
 let router  = express.Router();
 
 router.get("/",function(req,res){
@@ -13,7 +13,7 @@ router.get("/:id/evento.mp4",function(req,res){
 
   //console.log(req.path);
   //console.log("Recibida peticion de id:"+req.params.id);
-  const ruta = 'videos/eventos/'+req.params.id+'/evento.mp4';
+  const ruta = archivoRutas.rutaVideos+req.params.id+'/evento.mp4';
   const stat = fs.statSync(ruta);
   const fileSize = stat.size;
   const range = req.headers.range

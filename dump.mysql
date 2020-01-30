@@ -1,0 +1,122 @@
+-- MySQL dump 10.13  Distrib 5.7.29, for Linux (x86_64)
+--
+-- Host: 127.0.0.1    Database: videos1
+-- ------------------------------------------------------
+-- Server version	5.7.29-0ubuntu0.18.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `videos1`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `videos1` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `videos1`;
+
+--
+-- Table structure for table `camaras`
+--
+
+DROP TABLE IF EXISTS `camaras`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `camaras` (
+  `id_camara` int(7) NOT NULL AUTO_INCREMENT,
+  `localizacion` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id_camara`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `camaras`
+--
+
+LOCK TABLES `camaras` WRITE;
+/*!40000 ALTER TABLE `camaras` DISABLE KEYS */;
+INSERT INTO `camaras` (`id_camara`, `localizacion`) VALUES (35,'LON-IKC'),(40,'PAR-SOR'),(43,'MAD-UPM');
+/*!40000 ALTER TABLE `camaras` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `jwt` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`email`),
+  UNIQUE KEY `user_email_uindex` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`email`, `password`, `jwt`) VALUES ('borja@borja.com','$2b$10$gqNDIrPnA5kEavOotai0u.mCpL5KlGOg.3LfQb/m5CnpdBrdKAl3G',NULL);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `videos`
+--
+
+DROP TABLE IF EXISTS `videos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `videos` (
+  `id_video` int(7) NOT NULL AUTO_INCREMENT,
+  `camara` int(11) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `hora` time DEFAULT NULL,
+  `ubicacion` varchar(50) DEFAULT NULL,
+  `aprobado` int(1) DEFAULT NULL,
+  `favor` int(7) DEFAULT NULL,
+  `contra` int(7) DEFAULT NULL,
+  `rayo` int(11) DEFAULT '0',
+  `eei` int(11) DEFAULT '0',
+  `avion` int(11) DEFAULT '0',
+  `otro` int(11) DEFAULT '0',
+  `saltar` int(11) DEFAULT '0',
+  PRIMARY KEY (`id_video`),
+  KEY `camara` (`camara`),
+  CONSTRAINT `videos_ibfk_1` FOREIGN KEY (`camara`) REFERENCES `camaras` (`id_camara`)
+) ENGINE=InnoDB AUTO_INCREMENT=259 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `videos`
+--
+
+LOCK TABLES `videos` WRITE;
+/*!40000 ALTER TABLE `videos` DISABLE KEYS */;
+INSERT INTO `videos` (`id_video`, `camara`, `fecha`, `hora`, `ubicacion`, `aprobado`, `favor`, `contra`, `rayo`, `eei`, `avion`, `otro`, `saltar`) VALUES (3,43,'2019-06-01','23:39:28','cam43-UPM-MAD-2019-10-09--23-39-28',0,0,0,0,0,0,0,0);
+/*!40000 ALTER TABLE `videos` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-01-30 13:20:32

@@ -27,7 +27,7 @@ User.save = function(email, password) {
         if (err){
           throw err;reject();
         }
-        con.close();
+        con.end();
         resolve(result);
       });
     });
@@ -54,7 +54,7 @@ User.get1 = function(email) {
           throw err;reject();
         }
         console.log(result[0]);
-        con.close();
+        con.end();
         resolve(result[0]);
       });
     });

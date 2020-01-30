@@ -1,0 +1,5 @@
+"/allsky_montegancedo/files/cam43-UPM-MAD-2019-10-09--23-39-28/"Inicializando servidor....
+SELECT * FROM videos1.videos where aprobado = 0 and contra <= 10 order by rand() limit 1;
+78
+SELECT * FROM videos1.videos where aprobado = 0 and contra <= 10 order by rand() limit 1;
+3

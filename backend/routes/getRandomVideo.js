@@ -12,10 +12,10 @@ router.get("",function(req,res){
 function getRandomId(){
   return new Promise(function (resolve, reject) {
     const con = mysql.createConnection({
-      host: "34.76.92.32",
-      port: "3306",
-      user: "borja",
-      password: "borja"
+      host: config.get('ConexionBasededatos.host'),
+      port: config.get('ConexionBasededatos.port'),
+      user: config.get('ConexionBasededatos.user'),
+      password: config.get('ConexionBasededatos.password')
     });
     let sql = 'SELECT * FROM videos1.videos where aprobado = 0 and contra <= ' + config.get('Umbral.votos') + ' order by rand() limit 1;';
     console.log(sql);
@@ -28,7 +28,7 @@ function getRandomId(){
         if (err){
           throw err;reject();
         }
-        con.close();
+        con.end();
         resolve(result[0].id_video);
       });
     });

@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const fs = require('fs');
 console.log('Subir Videos');
-const archivoRutas = require('rutasImagenesYVideos');
+const archivoRutas = require('./rutasImagenesYVideos.js');
 let rutaVideos = archivoRutas.rutaVideos;
 const config = require('config');
 const ffmpeg = require('fluent-ffmpeg');
@@ -11,6 +11,7 @@ let rutaImagenes = archivoRutas.rutaImagenes;
 async function comprobarUltimoYSubir(rutaEventos) {
   let lastID, lastMember;
   let sql;
+  console.log('Obteniendo ultimo video');
   const con = mysql.createConnection({
     host: config.get('ConexionBasededatos.host'),
     port: config.get('ConexionBasededatos.port'),
@@ -47,7 +48,7 @@ async function comprobarUltimoYSubir(rutaEventos) {
     objeto={camara: camara, fecha:fecha,hora:horalarga,ubicacion:eventos[i]};
     //console.log(objeto);
 
-    fechaEvento = new Date(anno+'-'+mes+'-'+dia+'T'+hora+':'+minuto+':'+segundo);
+    fechaEvento = new Date(anno,mes,dia,hora,minuto,segundo);
     fechaEvento = new Date(fechaEvento.getTime()-fechaEvento.getTimezoneOffset()*60*1000);
 
     if(fechaEvento.getTime()>lastMember.getTime()){
@@ -62,7 +63,8 @@ async function comprobarUltimoYSubir(rutaEventos) {
       console.log(lastMember);
     }
   }
-  //con.end();
+  con.end();
+  return;
 }
 function getLastID(con,sql) {
   return new Promise( async function (resolve, reject) {
@@ -98,7 +100,8 @@ function getLastMember(con,sql) {
       if (err){
         throw err;reject();
       }
-      //console.log(result);
+      console.log('Resultado con ultimo id');
+      console.log(result);
       fecha = new Date(result[0].fecha);
       //console.log(fecha.getTime());
       anno = fecha.getFullYear()
@@ -111,11 +114,11 @@ function getLastMember(con,sql) {
       if(hh<10) hh = '0'+hh;
       //console.log(hh);
       //lastMember = {anno:anno,mes:mes,dia:dia,hora:hh,minuto:minuto,segundo:segundo};
-      //console.log(anno+'-'+mes+'-'+dia+'T'+hh+':'+minuto+':'+segundo);
-      lastMember = new Date(anno+'-'+mes+'-'+dia+'T'+hh+':'+minuto+':'+segundo);
+      console.log(anno+'-'+mes+'-'+dia+'T'+hh+':'+minuto+':'+segundo);
+      lastMember = new Date(anno,mes,dia,hh,minuto,segundo);
 
       //console.log(lastMember.getTime());
-      //console.log('Elemento:');console.log(lastMember);
+      console.log('Elemento:');console.log(lastMember);
       resolve(lastMember);
     });
     //
@@ -214,6 +217,7 @@ function crearDirectorios(rutaImagenes) {
 }
 
 crearCarpetasYVideos(rutaVideos,rutaImagenes).then(()=>{
+
+  comprobarUltimoYSubir(rutaVideos);
   return console.log("done");
-  //comprobarUltimoYSubir(rutaVideos);
 });

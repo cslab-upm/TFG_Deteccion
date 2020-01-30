@@ -114,11 +114,11 @@ Video.votoPositivo= function(id) {
               if (err){
                 throw err;reject();
               }
-              con.close();
+              con.end();
               resolve("OK");
             });
           } else{
-            con.close();
+            con.end();
             resolve('OK');
           }
 
@@ -164,7 +164,7 @@ Video.votoNegativo= function(id, avion, rayo, eei, otro) {
         if (err){
           throw err;reject();
         }
-        con.close();
+        con.end();
         resolve("OK");
       });
     });
